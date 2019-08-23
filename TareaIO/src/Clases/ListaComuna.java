@@ -7,6 +7,7 @@ package Clases;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class ListaComuna {
@@ -24,6 +25,8 @@ public class ListaComuna {
             int identificador;
             String nombre;
             double costo;
+            int[] idVecinos = new int[30];
+            int i = 0;
             
             while((bfRead = bf.readLine()) != null){
                 identificador = Integer.parseInt(bfRead);
@@ -31,8 +34,17 @@ public class ListaComuna {
                 nombre = bfRead;
                 bfRead = bf.readLine();
                 costo = Double.parseDouble(bfRead);
-                this.listaComuna.add(new Comuna(identificador,nombre,costo));
+                bfRead = bf.readLine();
+                while(!bfRead.equals("end")){
+                    idVecinos[i] = Integer.parseInt(bfRead);
+                    bfRead = bf.readLine();
+                    i++;
+                }
+                this.listaComuna.add(new Comuna(identificador,nombre,costo,idVecinos));
+                i = 0;
+                vaciarArregloIdentificador(idVecinos);
             }
+            cargarProbabilidad();
         }
         catch(IOException e){
             System.err.println("¡No se encontró un archivo!");
@@ -49,7 +61,36 @@ public class ListaComuna {
     
     public void mostrarDatos(){
         for(Comuna actual : listaComuna){
-            System.out.println("ID: "+actual.getId()+" Nombre: "+actual.getNombre()+" Costo: "+actual.getCosto());
+            System.out.println("ID: "+actual.getId()+" Nombre: "+actual.getNombre()+" Costo: "+actual.getCosto()+" Probabilidad: "+actual.getProbabilidad());
+            actual.mostrarVecinos();
+        }
+    }
+    
+    private void cargarProbabilidad(){
+        int cantidadComunas = listaComuna.size();
+        double probabilidadAsignada;
+        
+        for(int i = 0; i < cantidadComunas; i++){
+            probabilidadAsignada = (double)(i+1)/cantidadComunas;
+            listaComuna.get(i).setProbabilidad(probabilidadAsignada);
+        }
+    }
+    
+    public ArrayList<Comuna> entregarComunasSolicitadas(int[] comunasId){
+        ArrayList<Comuna> comunasSolicitadas = new ArrayList<>();
+        for(Comuna actual : listaComuna){
+            for(int i = 0; i < comunasId.length; i++){
+                if(comunasId[i] == actual.getId()){
+                    comunasSolicitadas.add(actual);
+                }
+            }
+        }
+        return comunasSolicitadas;
+    }
+    
+    public void vaciarArregloIdentificador(int[] arreglo){
+        for(int i = 0; i < arreglo.length; i++){
+            arreglo[i] = 0;
         }
     }
 }
