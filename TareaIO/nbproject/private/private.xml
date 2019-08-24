@@ -1,7 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
-    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
+    <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="1"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/C:/Users/Usuario/Desktop/gitHub/SCPjava/TareaIO/src/Clases/TestMain.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/gitHub/SCPjava/TareaIO/src/Clases/Comuna.java</file>
+            <file>file:/C:/Users/Usuario/Desktop/gitHub/SCPjava/TareaIO/src/Archivo/Comunas.txt</file>
+            <file>file:/C:/Users/Usuario/Desktop/gitHub/SCPjava/TareaIO/src/Clases/ListaComuna.java</file>
+        </group>
     </open-files>
 </project-private>
