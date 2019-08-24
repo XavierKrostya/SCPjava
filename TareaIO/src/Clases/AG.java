@@ -1,6 +1,7 @@
 package Clases;
 
 import java.util.Random;
+import java.lang.Math;
 
 public class AG {
 	
@@ -32,10 +33,11 @@ public class AG {
 	
 	public int[] createElement(int min, int max) {
 		int element[] = new int[this.sizeElement];
-		
+                Random r = new Random();
+                
 		for (int i = 0; i < this.sizeElement; i++)
 		{
-			element[i] = (int)(Math.random()*max + min);
+			element[i] = (int)r.nextInt(max+1)+min;
 		}
 		
 		if(!elementValidate(element))
@@ -44,7 +46,7 @@ public class AG {
 			{
 				for (int j = 0; j < this.sizeElement; j++)
 				{
-					element[j] = (int)(Math.random()*max + min);
+					element[j] = (int)r.nextInt(max+1)+min;
 				}
 			}	
 		}
@@ -86,7 +88,7 @@ public class AG {
 		{
 			if(element[i] == 1)
 			{
-				for (int k = 0; k < this.comunes[i].length; k++)
+				for (int k = 2; k < this.comunes[i].length; k++)
 				{
 					if(k > 31) {
 						validate[k - 3] = 1;
