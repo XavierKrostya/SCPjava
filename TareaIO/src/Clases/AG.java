@@ -1,3 +1,6 @@
+package Clases;
+
+import java.util.Random;
 
 public class AG {
 	
@@ -9,11 +12,11 @@ public class AG {
 	int crossingCromosomes;
 	int bestFitness[];
 	int ids[];
-	int prices[];
+	double prices[];
 	int comunes[][];
 	
 	public AG(int fitness, int sizeElement, double mutationProb, int elementQuantity, int iterations,
-			int crossingCromosomes, int fitnessCount, int[] bestFitness, int[] ids, int[] prices, int[][] comunes) {
+			int crossingCromosomes, int[] bestFitness, int[] ids, double[] prices, int[][] comunes) {
 		super();
 		this.fitness = fitness;
 		this.sizeElement = sizeElement;
@@ -21,7 +24,6 @@ public class AG {
 		this.elementQuantity = elementQuantity;
 		this.iterations = iterations;
 		this.crossingCromosomes = crossingCromosomes;
-		this.fitnessCount = fitnessCount;
 		this.bestFitness = bestFitness;
 		this.ids = ids;
 		this.prices = prices;
@@ -61,7 +63,7 @@ public class AG {
 		return poblation;
 	}
 	
-	private int fitnessCalc(int[] element) {
+	public int fitnessCalc(int[] element) {
 		double fitness = 0;
 		for (int j = 0; j < this.sizeElement; j++)
 		{
@@ -171,8 +173,32 @@ public class AG {
 		return poblation;
 		
 	}
+        
+        public int[][] mutation (int[][] poblation) {
+            
+                double random = 0;
+                int point = 0;
+                int value = 0;
+                Random randomBoolean = new Random();
+                        
+                for (int i = 0; i < sizeElement; i++) {
+                    random = Math.random();
+                    
+                    if (random <= mutationProb) {
+                        random = ((Math.random() * (sizeElement - 1)) + 1);
+                        point = (int)random;
+                        value = randomBoolean.nextInt(1);
+                        
+                        while (value == poblation[i][point]) {
+                            value = randomBoolean.nextInt(1);
+                        }
+                        poblation[i][point] = value;
+                    }
+                }
+                return poblation;
+        }
 
-	private int [] bestFitnessPoblation(int[][] poblation, int[] bestFitness2) {
+	public int [] bestFitnessPoblation(int[][] poblation, int[] bestFitness2) {
 		System.out.print(bestFitness2);
 		for(int i = 0; i < poblation.length - this.crossingCromosomes; i++ ) {
 			if (elementValidate(poblation[i]) == true)
