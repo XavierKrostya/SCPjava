@@ -29,6 +29,6 @@ public class TestMain {
             {24,28,26,11,15,6},{25,11,24,26,4},{26,24,28,4,25},{27,5,29,28,6},{28,26,24,27,29,3,4},{29,5,3,28,27},{30,19,21,20,18,36,34},
             {31,35,14,34,38},{33,10,15,13,17,35},{34,30,36,38,37,14,16},{35,33,17,31},{36,38,34,30},{37,34,14},{38,31,34,36}};
         
-        AG programa = new AG(fitness,sizeElement,mutationProb,elementQuantity,iterations,crossingCromosomes,fitnessCount,bestFitness,ids,prices,comunes);
+        AG program = new AG(fitness,sizeElement,mutationProb,elementQuantity,iterations,crossingCromosomes,fitnessCount,bestFitness,ids,prices,comunes);
     }
 }
