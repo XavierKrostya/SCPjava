@@ -1,36 +1,17 @@
-package Clases;
-import java.util.Random;
-
 
 public class AG {
 	
-	int fitness;            //Fitness inicial
-	int sizeElement;        //cantidad de vecinos que tiene el elemento
-	double mutationProb;    //probabilidad de mutacion
-	int elementQuantity;    //numero del elemento
-	int iterations;         //cantidad de iteracciones
-	int crossingCromosomes; //cantidad de cromosomas por cruzar
-	int fitnessCount = 0;   //contador para el fitness
-	int bestFitness[];      //vector que contendr� el mejor Fitness
-	int ids[];          //vector que contiene los identificadores de las comunas
-	int prices[];       //vector que contiene los costos de cada comuna
-	int comunes[][];    //matriz que contiene la poblacion inicial del problema
+	int fitness;
+	int sizeElement;
+	double mutationProb;
+	int elementQuantity;
+	int iterations;
+	int crossingCromosomes;
+	int bestFitness[];
+	int ids[];
+	int prices[];
+	int comunes[][];
 	
-        /**
-         * Constructor para la clase AG; se guardar�n todos los datos
-         * ingresados por parametro.
-         * @param fitness int
-         * @param sizeElement int   
-         * @param mutationProb double
-         * @param elementQuantity int
-         * @param iterations int
-         * @param crossingCromosomes int
-         * @param fitnessCount int
-         * @param bestFitness int[]
-         * @param ids int[]
-         * @param prices int[]
-         * @param comunes int[][]
-         */
 	public AG(int fitness, int sizeElement, double mutationProb, int elementQuantity, int iterations,
 			int crossingCromosomes, int fitnessCount, int[] bestFitness, int[] ids, int[] prices, int[][] comunes) {
 		super();
@@ -47,12 +28,6 @@ public class AG {
 		this.comunes = comunes;
 	}
 	
-        /**
-         * M�todo para crear un elemento en un vector
-         * @param min int
-         * @param max int
-         * @return int[]
-         */
 	public int[] createElement(int min, int max) {
 		int element[] = new int[this.sizeElement];
 		
@@ -74,11 +49,7 @@ public class AG {
 		return element;
 	}
 	
-        /**
-         * Crear la poblacion y guardarla en una matriz
-         * @return int[][]
-         */
-	private int[][] createPoblation() {
+	public int[][] createPoblation() {
 		int poblation[][] = new int[this.elementQuantity][this.sizeElement];
 		
 		for (int j = 0; j < this.elementQuantity; j++)
@@ -90,12 +61,7 @@ public class AG {
 		return poblation;
 	}
 	
-        /**
-         * Calcular el fitness de un elemento entregado por par�metro.
-         * @param element int[]
-         * @return double
-         */
-	private double fitnessCalc(int[] element) {
+	private int fitnessCalc(int[] element) {
 		double fitness = 0;
 		for (int j = 0; j < this.sizeElement; j++)
 		{
@@ -103,14 +69,9 @@ public class AG {
 				fitness += this.prices[j];
 			}
 		}
-		return fitness;
+		return (int) fitness;
 	}
-        
-        /**
-         * Validar un elemento entregado por par�metro.
-         * @param element int[]
-         * @return boolean
-         */
+
 	private boolean elementValidate(int[] element) {
 		int count = 0;
 		int [] validate = new int[sizeElement];
@@ -146,13 +107,6 @@ public class AG {
 		return false;
 	}
 	
-        /**
-         * Permite realizar el cruzamiento de dos elementos padres, y retornar�
-         * los hijos resultantes
-         * @param elementF int[]
-         * @param elementM int[]
-         * @return int[][]
-         */
 	private int[][] crossover(int[] elementF, int[] elementM) {
 		
 		int breakpoint = (int) Math.random()*(elementF.length-1) + 1;
@@ -173,49 +127,64 @@ public class AG {
 		return childs;
 		
 	}
-        
-        /*
-        private int[] seachTheBestFitnessPoblation(int[][] poblation, int[] bestFitness){
-            for (int i = 0; i < sizeElement; i++){
-                if(elementValidate(poblation[i])){
-                    if((fitnessCalc(poblation[i])) < bestFitness[0]){
-                        bestFitness = bestFitness[calcularFitness(poblation[i])][poblation[i]];
-                    }
-                }
-            }
-            return bestFitness;
-        }
-        */
-        
-        /**
-         * Permite mutar la poblacion.
-         * @param poblation int[][]
-         * @return int[][]
-         */
-        private int[][] mutation (int[][] poblation) {
-            
-                double random = 0;
-                int point = 0;
-                int value = 0;
-                Random randomBoolean = new Random();
-                        
-                for (int i = 0; i < sizeElement; i++) {
-                    random = Math.random();
-                    
-                    if (random <= mutationProb) {
-                        random = ((Math.random() * (sizeElement - 1)) + 1);
-                        point = (int)random;
-                        value = randomBoolean.nextInt(1);
-                        
-                        while (value == poblation[i][point]) {
-                            value = randomBoolean.nextInt(1);
-                        }
-                        poblation[i][point] = value;
-                    }
-                }
-                return poblation;
-        }
 
+	public int[][] reproduction(int[][] poblation){
+		int fitnessCount = 0;
+		double totalFitness= 0;
+		int [] fat = new int[poblation.length];
+		double [][] data = new double [poblation.length][poblation[0].length]; 
+		
+		double [][]evaluatedPop = new double [poblation.length][poblation[0].length]; 
+		
+		for(int i = 0; i < poblation.length; i++ ) {
+			evaluatedPop[i][0] = fitnessCalc(poblation[i]);
+			evaluatedPop[i][i] = i;
+		}
+		for(int i = 0; i < evaluatedPop.length; i++ ) {
+			fitnessCount += evaluatedPop[i][0];
+			totalFitness = fitnessCount;
+			fitnessCount = 0;
+
+		}
+		for(int i = 0; i < evaluatedPop.length; i++ ) {
+			data[0][i] = evaluatedPop[i][0] / totalFitness ;
+			fitnessCount += data[0][i];
+			data[1][i] = fitnessCount;
+		}
+		int random = (int) Math.random();
+		for(int i = 0; i < evaluatedPop.length; i++ ) {
+			if(random < data[1][i]) {
+				fat = poblation[i];
+			}
+		}
+		this.iterations = (poblation.length/2);
+		int [][]result;
+		while(this.iterations != 0)
+		{
+			random = (int) Math.random()*poblation.length - 1;
+			result = this.crossover(fat, poblation[random]);
+			fat = result[0];
+			poblation[random] = result[1];
+			this.iterations -=1;
+		}
+		bestFitnessPoblation(poblation, this.bestFitness);
+		return poblation;
+		
+	}
+
+	private int [] bestFitnessPoblation(int[][] poblation, int[] bestFitness2) {
+		System.out.print(bestFitness2);
+		for(int i = 0; i < poblation.length - this.crossingCromosomes; i++ ) {
+			if (elementValidate(poblation[i]) == true)
+			{
+				if((this.fitnessCalc(poblation[i]) < bestFitness2[0])) {
+					bestFitness2[0] = this.fitnessCalc(poblation[i]);
+					bestFitness2[0] =  poblation[i][0];
+				}
+			}	
+		}
+		return bestFitness2;
+	}
 
 	public int getFitness() {
 		return fitness;
@@ -253,12 +222,7 @@ public class AG {
 	public void setCrossingCromosomes(int crossingCromosomes) {
 		this.crossingCromosomes = crossingCromosomes;
 	}
-	public int getFitnessCount() {
-		return fitnessCount;
-	}
-	public void setFitnessCount(int fitnessCount) {
-		this.fitnessCount = fitnessCount;
-	}	
+
 	
 			
 }
